@@ -21,11 +21,15 @@ NKRO_ENABLE ?= no
 KEYMAP_SECTION_ENABLE = yes
 
 AVRDUDE ?= avrdude
-PORT ?= COM14
+PORT ?= COM20
 RATE ?= 57600
 
-PROGRAM_CMD = avrdude -p $(MCU) -c arduino -P $(PORT) -b $(RATE) -U flash:w:$(TARGET).hex
+# AVR109 is the protocol used by the default Leonardo bootloader.
+PROGRAM_CMD = $(AVRDUDE) -p $(MCU) -c avr109 -P $(PORT) -b $(RATE) -U flash:w:$(TARGET).hex
 
 #OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
+
+# We really want alt-printscreen to work...
+OPT_DEFS += -DCONFIG_TREAT_PRINTSCREEN_NORMALLY
 
 include Makefile
