@@ -1,0 +1,31 @@
+
+# Model M keyboard with a (bb) leonardo/"pro micro".
+
+TARGET ?= ps2_modelm_leo
+KEYMAP?=plain
+
+MCU = atmega32u4
+
+BOOTMAGIC_ENABLE ?= yes
+MOUSEKEY_ENABLE ?= no
+
+# No such keys on a model m
+EXTRAKEY_ENABLE ?= no
+
+CONSOLE_ENABLE ?= yes
+COMMAND_ENABLE ?= yes
+
+# Model M is not nearly NKRO - can disable this in the converter.
+NKRO_ENABLE ?= no
+
+KEYMAP_SECTION_ENABLE = yes
+
+AVRDUDE ?= avrdude
+PORT ?= COM14
+RATE ?= 57600
+
+PROGRAM_CMD = avrdude -p $(MCU) -c arduino -P $(PORT) -b $(RATE) -U flash:w:$(TARGET).hex
+
+#OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
+
+include Makefile
