@@ -3,6 +3,7 @@
 # and a keymap that hard-translates Caps Lock to the Windows Key
 
 TARGET := ps2_modelm_leo_winkey
-KEYMAP=add_winkey
+UNIMAP_ENABLE=yes
+KEYMAP=modelm_winkey
 
 include Makefile.model_m_leo
