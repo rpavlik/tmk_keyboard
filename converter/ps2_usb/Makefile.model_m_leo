@@ -29,7 +29,4 @@ PROGRAM_CMD = $(AVRDUDE) -p $(MCU) -c avr109 -P $(PORT) -b $(RATE) -U flash:w:$(
 
 #OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
 
-# We really want alt-printscreen to work...
-OPT_DEFS += -DCONFIG_TREAT_PRINTSCREEN_NORMALLY
-
 include Makefile
