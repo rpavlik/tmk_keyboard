@@ -1,0 +1,8 @@
+
+# Model M keyboard with a (bb) leonardo/"pro micro"
+# and a keymap that hard-translates Caps Lock to the Windows Key
+
+TARGET := ps2_modelm_leo_winkey
+KEYMAP=add_winkey
+
+include Makefile.model_m_leo
