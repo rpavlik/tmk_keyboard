@@ -24,7 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PRODUCT_ID      0x6512
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    t.m.k.
+#ifndef PRODUCT
 #define PRODUCT         PS/2 keyboard converter
+#endif
 #define DESCRIPTION     convert PS/2 keyboard to USB
 
 
