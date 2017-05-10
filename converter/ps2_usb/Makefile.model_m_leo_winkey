@@ -5,5 +5,11 @@
 TARGET := ps2_modelm_leo_winkey
 UNIMAP_ENABLE=yes
 KEYMAP=modelm_winkey
+CONFIG_H = config_modelm_winkey.h
+
+#attempted fix for chromebook Usage
+#BOOTMAGIC_ENABLE=no
+#CONSOLE_ENABLE=no
+#COMMAND_ENABLE=no
 
 include Makefile.model_m_leo
