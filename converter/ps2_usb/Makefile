@@ -73,7 +73,7 @@ F_USB ?= $(F_CPU)
 #OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
 
 # This improves response of keyboard when wakeup
-OPT_DEFS += -DSUSPEND_MODE_STANDBY
+#OPT_DEFS += -DSUSPEND_MODE_STANDBY
 
 # Boot Section Size in *bytes*
 #   Teensy halfKay   512
