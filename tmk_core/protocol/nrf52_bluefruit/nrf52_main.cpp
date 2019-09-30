@@ -18,9 +18,8 @@
 #include "nrf52_bluefruit.h"
 #include "nrf52_hooks.h"
 
-BLEDis bledis;
+static BLEDis bledis;
 static BLEHidAdafruit blehid;
-BLEBas batteryService;
 
 /* Default hooks definitions. */
 __attribute__((weak)) void hook_early_init(void) {}
@@ -41,6 +40,8 @@ __attribute__((weak)) void hook_device_information(BLEDis &dis) {
     dis.setModel(BLE_MODEL);
 }
 
+__attribute__((weak)) void hook_advertising() {}
+
 static void startAdv(void) {
     // Advertising packet
     Bluefruit.Advertising.addFlags(BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE);
@@ -49,7 +50,7 @@ static void startAdv(void) {
 
     // Include BLE HID service
     Bluefruit.Advertising.addService(blehid);
-    Bluefruit.Advertising.addService(batteryService);
+    hook_advertising();
 
     // There is enough room for the dev name in the advertising packet
     if (!Bluefruit.Advertising.addName()) {
@@ -94,6 +95,11 @@ void setup() {
         delay(10); // for nrf52840 with native usb
 
     Serial.println("Bluefruit52 PS/2 to BLE HID Keyboard Adapter");
+    Serial.println();
+    Serial.print("SoftDevice and bootloader version: ");
+    Serial.println(getBootloaderVersion());
+    Serial.print("Unique ID: ");
+    Serial.println(getMcuUniqueID());
 
     Bluefruit.begin();
 #ifdef BLE_NAME
@@ -106,7 +112,7 @@ void setup() {
     bledis.begin();
 
     set_bluefruit_hid(blehid);
-    batteryService.begin();
+
     /* Start BLE HID
      * Note: Apple requires BLE device must have min connection interval >= 20m
      * ( The smaller the connection interval the faster we could send data).
@@ -129,7 +135,6 @@ void setup() {
     // Set up and start advertising
     startAdv();
 
-    batteryService.write(15);
     hook_late_init();
 }
 

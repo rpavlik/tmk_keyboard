@@ -25,3 +25,7 @@ class BLEDis;
  * preprocessor defines BLE_MFR and BLE_MODEL.
  */
 void hook_device_information(BLEDis &dis);
+
+/* Called just before adding the name to the advertising packet.
+ */
+extern "C" void hook_advertising();
