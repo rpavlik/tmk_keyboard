@@ -10,6 +10,11 @@ LD      = $(GCC_BIN)arm-none-eabi-gcc
 OBJCOPY = $(GCC_BIN)arm-none-eabi-objcopy
 OBJDUMP = $(GCC_BIN)arm-none-eabi-objdump
 SIZE 	= $(GCC_BIN)arm-none-eabi-size
+NRFUTIL ?= adafruit-nrfutil
+PORT    ?= /dev/ttyUSB0
+
+# SoftDevice firmware s132 v6.1.1
+SD_FWID=0x00B7
 
 CC_FLAGS += \
 	$(CPU) \
@@ -54,11 +59,23 @@ else
   CC_FLAGS += -DNDEBUG -Os
 endif
 
+STARTUP_OBJECT = $(OBJDIR)/startup.o
+OBJECTS += $(STARTUP_OBJECT)
+
 all: $(OBJDIR)/$(PROJECT).bin $(OBJDIR)/$(PROJECT).hex
 
+zip: $(OBJDIR)/$(PROJECT).zip
+
 clean:
-	rm -f $(OBJDIR)/$(PROJECT).bin $(OBJDIR)/$(PROJECT).elf $(OBJDIR)/$(PROJECT).hex $(OBJDIR)/$(PROJECT).map $(OBJDIR)/$(PROJECT).lst $(OBJECTS) $(DEPS)
+	rm -f $(OBJDIR)/$(PROJECT).bin $(OBJDIR)/$(PROJECT).elf $(OBJDIR)/$(PROJECT).hex $(OBJDIR)/$(PROJECT).map $(OBJDIR)/$(PROJECT).lst $(OBJECTS) $(STARTUP_OBJECT).s $(DEPS)
 	rm -fr $(OBJDIR)
+
+$(STARTUP_OBJECT).s: $(STARTUP)
+	mkdir -p $(@D)
+	$(CXX) -E $(CC_SYMBOLS) $< > $@
+
+$(STARTUP_OBJECT): $(STARTUP_OBJECT).s
+	$(AS) $(CPU) -o $@ $<
 
 $(OBJDIR)/%.o: %.s
 	mkdir -p $(@D)
@@ -86,6 +103,12 @@ $(OBJDIR)/$(PROJECT).hex: $(OBJDIR)/$(PROJECT).elf
 
 $(OBJDIR)/$(PROJECT).lst: $(OBJDIR)/$(PROJECT).elf
 	@$(OBJDUMP) -Sdh $< > $@
+
+$(OBJDIR)/$(PROJECT).zip: $(OBJDIR)/$(PROJECT).hex
+	@$(NRFUTIL) dfu genpkg --dev-type 0x0052 --sd-req $(SD_FWID) --application "$<" "$@"
+
+dfu: $(OBJDIR)/$(PROJECT).zip
+	@$(NRFUTIL) dfu serial --package "$<" -p "$(PORT)" -b 115200
 
 lst: $(OBJDIR)/$(PROJECT).lst
 

@@ -64,7 +64,6 @@ OBJECTS += \
 	$(OBJDIR)/cores/nRF5/wiring.o \
 	$(OBJDIR)/cores/nRF5/WMath.o \
 	$(OBJDIR)/cores/nRF5/WString.o \
-	$(OBJDIR)/gcc_startup_nrf52.o \
 
 INCLUDE_PATHS += \
 	-I$(NRF52_DIR)/cores/nRF5 \
