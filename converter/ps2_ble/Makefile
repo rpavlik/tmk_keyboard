@@ -8,8 +8,7 @@ VPATH += $(TMK_DIR):$(NRF52_DIR):../ps2_usb
 OBJDIR = ./build
 
 OBJECTS = \
-	$(OBJDIR)/protocol/ps2_busywait.o \
-	$(OBJDIR)/protocol/ps2_io_arduino.o \
+	$(OBJDIR)/protocol/ps2_io_nrf52.o \
 	$(OBJDIR)/./matrix.o \
 	$(OBJDIR)/./led.o
 
@@ -31,6 +30,18 @@ LIBRARIES =
 # Build Options
 #   Comment out to disable
 MOUSEKEY_ENABLE ?= yes
+PS2_USE_BUSYWAIT ?= yes
+PS2_USE_INT ?= no
+
+
+ifeq (yes,$(strip $(PS2_USE_BUSYWAIT)))
+    OBJECTS += $(OBJDIR)/protocol/ps2_busywait.o
+    OPT_DEFS += -DPS2_USE_BUSYWAIT
+endif
+ifeq (yes,$(strip $(PS2_USE_INT)))
+    OBJECTS += $(OBJDIR)/protocol/ps2_interrupt.o
+    OPT_DEFS += -DPS2_USE_INT
+endif
 
 include $(TMK_DIR)/protocol/nrf52_bluefruit.mk
 
