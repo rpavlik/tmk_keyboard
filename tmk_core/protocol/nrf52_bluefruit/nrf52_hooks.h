@@ -1,8 +1,6 @@
 /*
-Native BLE driver for nRF52 "Bluefruit" boards for TMK firmware
-Author: Ryan Pavlik <ryan.pavlik@gmail.com>
-Based on code Copyright 2013, Benjamin Gould
-Based on code Copyright 2011 Jun Wako <wakojun@gmail.com>
+Copyright 2016 Jun Wako <wakojun@gmail.com>
+Copyright 2019 Ryan Pavlik <ryan.pavlik@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,15 +16,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef NRF52_BLUEFRUIT_H
-#define NRF52_BLUEFRUIT_H
+#include "hook.h"
 
-#include "host_driver.h"
+class BLEDis;
 
-host_driver_t *native_bluefruit_driver(void);
-
-void set_keyboard_leds(uint8_t leds);
-
-class BLEHidAdafruit;
-void set_bluefruit_hid(BLEHidAdafruit &hid);
-#endif
+/* Called before we start the device information service, let you specify
+ * details. Default just provides a manufacturer and model configured by
+ * preprocessor defines BLE_MFR and BLE_MODEL.
+ */
+void hook_device_information(BLEDis &dis);

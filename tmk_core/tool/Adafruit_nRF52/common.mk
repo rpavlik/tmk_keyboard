@@ -11,6 +11,8 @@ OBJECTS += \
 	$(OBJDIR)/common/debug.o \
 	$(OBJDIR)/common/util.o \
 	$(OBJDIR)/common/hook.o \
+	$(OBJDIR)/common/arduino/timer.o \
+	$(OBJDIR)/common/arduino/bootloader.o \
 	# $(OBJDIR)/common/mbed/suspend.o \
 	# $(OBJDIR)/common/mbed/timer.o \
 	# $(OBJDIR)/common/mbed/xprintf.o \

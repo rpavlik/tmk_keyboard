@@ -18,10 +18,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <bluefruit.h>
 #include "nrf52_bluefruit.h"
+#include <bluefruit.h>
 
-static BLEHidAdafruit blehid;
+static BLEHidAdafruit *blehid{nullptr};
 static uint8_t bluefruit_keyboard_leds = 0;
 
 /*------------------------------------------------------------------*
@@ -34,46 +34,28 @@ static void send_mouse(report_mouse_t *report);
 static void send_system(uint16_t data);
 static void send_consumer(uint16_t data);
 
-BLEHidAdafruit& get_hid() {
-    return blehid;
+void set_bluefruit_hid(BLEHidAdafruit &hid) { blehid = &hid; }
+
+static host_driver_t driver = {keyboard_leds, send_keyboard, send_mouse,
+                               send_system, send_consumer};
+
+host_driver_t *native_bluefruit_driver(void) { return &driver; }
+void set_keyboard_leds(uint8_t leds) { bluefruit_keyboard_leds = leds; }
+static uint8_t keyboard_leds(void) { return bluefruit_keyboard_leds; }
+
+static void send_keyboard(report_keyboard_t *report) {
+    blehid->keyboardReport(report->mods, report->keys);
 }
 
-static host_driver_t driver = {
-        keyboard_leds,
-        send_keyboard,
-        send_mouse,
-        send_system,
-        send_consumer
-};
-
-host_driver_t *native_bluefruit_driver(void)
-{
-    return &driver;
-}
-void set_keyboard_leds(uint8_t leds) {
-
-}
-static uint8_t keyboard_leds(void) {
-    return bluefruit_keyboard_leds;
+static void send_mouse(report_mouse_t *report) {
+    blehid->mouseReport(report->buttons, report->x, report->y, report->v,
+                       report->h);
 }
 
-static void send_keyboard(report_keyboard_t *report)
-{
-    blehid.keyboardReport(report->mods, report->keys);
-}
-
-static void send_mouse(report_mouse_t *report)
-{
-    blehid.mouseReport(report->buttons, report->x, report->y, report->v, report->h);
-}
-
-static void send_system(uint16_t data)
-{
+static void send_system(uint16_t data) {
     // blehid.consumerReport(data);
 }
 
-static void send_consumer(uint16_t data)
-{
+static void send_consumer(uint16_t data) {
     // blehid.consumerReport(data);
 }
-
