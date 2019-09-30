@@ -203,7 +203,7 @@ uint8_t matrix_scan(void)
                         break;
                     case 0xAA:  // Self-test passed
                     case 0xFC:  // Self-test failed
-                        printf("BAT %s\n", (code == 0xAA) ? "OK" : "NG");
+                        xprintf("BAT %s\n", (code == 0xAA) ? "OK" : "NG");
                         led_set(host_keyboard_leds());
                         state = INIT;
                         break;
