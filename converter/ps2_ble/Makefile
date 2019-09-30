@@ -1,9 +1,9 @@
-PROJECT = ps2_usb
+PROJECT ?= ps2_ble
 
 TMK_DIR = ../../tmk_core
 NRF52_DIR = $(TMK_DIR)/tool/Adafruit_nRF52/Adafruit_nRF52_Arduino
 
-VPATH += $(TMK_DIR):$(NRF52_DIR)
+VPATH += $(TMK_DIR):$(NRF52_DIR):../ps2_usb
 
 OBJDIR = ./build
 
@@ -19,7 +19,7 @@ else
     OBJECTS := $(OBJDIR)/keymap_plain.o $(OBJECTS)
 endif
 
-CONFIG_H = config_nrf52.h
+CONFIG_H ?= config.h
 
 SYS_OBJECTS = 
 
@@ -30,12 +30,9 @@ LIBRARIES =
 
 # Build Options
 #   Comment out to disable
-#BOOTMAGIC_ENABLE = yes
-MOUSEKEY_ENABLE = yes
+MOUSEKEY_ENABLE ?= yes
 
-#include $(TMK_DIR)/protocol.mk
 include $(TMK_DIR)/protocol/nrf52_bluefruit.mk
-#include $(TMK_DIR)/common.mk
 
 include $(TMK_DIR)/tool/Adafruit_nRF52/common.mk
 include $(TMK_DIR)/tool/Adafruit_nRF52/feather_nrf52832.mk

@@ -24,10 +24,10 @@ INCLUDE_PATHS += \
 
 CC_FLAGS += -include $(CONFIG_H)
 
-# VPATH += $(NRF52_DIR)/cores/nRF5:$(NRF52_DIR)/libraries/Bluefruit52Lib/src
 VPATH += $(NRF52_DIR)
 
-# OBJECTS += $(patsubst %.c,%.o,$(patsubst %.cpp,%.o,$(SRC)))
+# No eeprom, so skip this.
+OPT_DEFS += -DNO_ACTION_MACRO
 
 # Option modules
 ifdef BOOTMAGIC_ENABLE

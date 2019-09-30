@@ -21,16 +21,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <avr/interrupt.h>
 
 #define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0x6513
+#define PRODUCT_ID      0x6512
 #define DEVICE_VER      0x0001
-#define MANUFACTURER    t.m.k./Ryan Pavlik
-#define PRODUCT         IBM Model M PS/2-BLE Keyboard Converter
-#define DESCRIPTION     convert PS/2 keyboard to BLE HID mapping Caps Lock to the Windows key
+#define MANUFACTURER    t.m.k.
+#ifndef PRODUCT
+#define PRODUCT         PS/2 keyboard converter
+#endif
+#define DESCRIPTION     convert PS/2 keyboard to USB
 
 
 /* matrix size */
-#define MATRIX_ROWS 32  // keycode bit: 3-0
-#define MATRIX_COLS 8   // keycode bit: 6-4
+#define MATRIX_ROWS 32  // keycode bit: 7-3
+#define MATRIX_COLS 8   // keycode bit: 2-0
 
 
 /* key combination for command */
@@ -41,18 +43,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 //#define NO_SUSPEND_POWER_DOWN
-#define NO_ACTION_MACRO
+
 
 /*
  * PS/2 Busywait
  */
+#ifdef PS2_USE_BUSYWAIT
 #define PS2_CLOCK_PIN   3
 #define PS2_DATA_PIN    4
+#endif
+
+/*
+ * PS/2 Pin interrupt
+ */
+#ifdef PS2_USE_INT
+#error "Not implemented"
+#endif
 
 #ifdef NDEBUG
 #define CFG_DEBUG 0
 #else
 #define CFG_DEBUG 1
 #endif
-
 #endif

@@ -1,0 +1,9 @@
+
+# Model M keyboard with an Adafruit "Bluefruit LE" nRF52832 Feather
+# and a keymap that hard-translates Caps Lock to the Windows Key
+
+TARGET := ps2_modelm_winkey_ble
+KEYMAP=add_winkey
+CONFIG_H = config_modelm_winkey.h
+
+include Makefile
