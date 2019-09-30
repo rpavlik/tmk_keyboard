@@ -13,6 +13,10 @@ extern "C" {
 #   include "ch.h"
 #   define wait_ms(ms) chThdSleepMilliseconds(ms)
 #   define wait_us(us) chThdSleepMicroseconds(us)
+#elif defined(ARDUINO)
+#   include <delay.h>
+#   define wait_ms(ms) delayMicroseconds(ms * 1000UL)
+#   define wait_us(us) delayMicroseconds(us)
 #elif defined(__arm__) /* __AVR__ */
 #   include "wait_api.h"
 #endif /* __AVR__ */
