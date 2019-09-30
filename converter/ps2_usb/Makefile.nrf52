@@ -11,8 +11,7 @@ OBJECTS = \
 	$(OBJDIR)/protocol/ps2_busywait.o \
 	$(OBJDIR)/protocol/ps2_io_arduino.o \
 	$(OBJDIR)/./matrix.o \
-	$(OBJDIR)/./led.o \
-	$(OBJDIR)/./main_nrf52.o
+	$(OBJDIR)/./led.o
 
 ifdef KEYMAP
     OBJECTS := $(OBJDIR)/keymap_$(KEYMAP).o $(OBJECTS)
@@ -34,6 +33,9 @@ LIBRARIES =
 #BOOTMAGIC_ENABLE = yes
 MOUSEKEY_ENABLE = yes
 
+#include $(TMK_DIR)/protocol.mk
+include $(TMK_DIR)/protocol/nrf52_bluefruit.mk
+#include $(TMK_DIR)/common.mk
 
 include $(TMK_DIR)/tool/Adafruit_nRF52/common.mk
 include $(TMK_DIR)/tool/Adafruit_nRF52/feather_nrf52832.mk

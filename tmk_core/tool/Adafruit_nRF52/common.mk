@@ -25,7 +25,7 @@ CC_FLAGS += -include $(CONFIG_H)
 # VPATH += $(NRF52_DIR)/cores/nRF5:$(NRF52_DIR)/libraries/Bluefruit52Lib/src
 VPATH += $(NRF52_DIR)
 
-
+# OBJECTS += $(patsubst %.c,%.o,$(patsubst %.cpp,%.o,$(SRC)))
 
 # Option modules
 ifdef BOOTMAGIC_ENABLE

@@ -5,6 +5,7 @@ GCC_BIN =
 AS      = $(GCC_BIN)arm-none-eabi-as
 CC      = $(GCC_BIN)arm-none-eabi-gcc
 CPP     = $(GCC_BIN)arm-none-eabi-g++
+CXX     = $(GCC_BIN)arm-none-eabi-g++
 LD      = $(GCC_BIN)arm-none-eabi-gcc
 OBJCOPY = $(GCC_BIN)arm-none-eabi-objcopy
 OBJDUMP = $(GCC_BIN)arm-none-eabi-objdump
@@ -69,7 +70,8 @@ $(OBJDIR)/%.o: %.c
 
 $(OBJDIR)/%.o: %.cpp
 	mkdir -p $(@D)
-	$(CPP) $(CC_FLAGS) $(CXX_FLAGS) $(CC_SYMBOLS) -std=gnu++11 -fno-rtti $(INCLUDE_PATHS) -o $@ $<
+	@echo "$@ -> $<"
+	$(CXX) $(CC_FLAGS) $(CXX_FLAGS) $(CC_SYMBOLS) -std=gnu++11 -fno-rtti $(INCLUDE_PATHS) -o $@ $<
 
 
 $(OBJDIR)/$(PROJECT).elf: $(OBJECTS) $(SYS_OBJECTS)
